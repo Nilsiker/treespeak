@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://odxetgldiknt"]
+
+[node name="Control" type="Label"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non dignissim sem. Praesent sed orci eget nulla porttitor sollicitudin in vitae sem. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas fermentum tellus sed tortor sodales, eu suscipit libero aliquet. Ut vestibulum venenatis dui, sit amet gravida arcu aliquam euismod. Nunc varius ligula eu eros vehicula suscipit. Aenean laoreet nulla in dolor aliquet pharetra a eget ex. Quisque volutpat ultrices est. Nam blandit purus nec nibh feugiat, vitae ultrices augue volutpat. Suspendisse venenatis faucibus congue. Vivamus volutpat id velit et euismod.
+
+Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus ac sollicitudin justo, id consectetur justo. Praesent consectetur ante sit amet arcu dignissim ultrices ut et nibh. Vivamus vestibulum enim nec viverra porttitor. Sed convallis neque eros, sed condimentum lectus tincidunt ac. Pellentesque tincidunt turpis sed mi blandit viverra. Mauris eu odio in eros feugiat viverra. Fusce bibendum erat massa, nec finibus est volutpat ut. Vivamus cursus, nisi vel tincidunt auctor, quam nisl interdum nulla, in elementum felis tortor ut lacus. Nulla egestas suscipit arcu, vel hendrerit leo faucibus quis. Suspendisse fermentum ante risus, vitae varius elit sollicitudin in. Nulla ullamcorper est ac eros cursus, et ornare velit rutrum. Fusce vel maximus metus. Nunc at lacinia erat. Proin accumsan iaculis risus vel pharetra. Duis luctus lacus id ipsum aliquet, et consequat urna eleifend."
+autowrap_mode = 2

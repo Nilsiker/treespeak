@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://b4v5ouf3ph0h8"]
+
+[ext_resource type="StyleBox" uid="uid://13lr7pijye47" path="res://addons/TreeSpeak/resources/styles/style_dialogue_node_npc.tres" id="1_xp0ag"]
+[ext_resource type="Script" path="res://addons/TreeSpeak/scripts/editor/DialogueNpcNode.gd" id="2_t7pwb"]
+
+[node name="DialogueNpcNode" type="GraphNode"]
+offset_right = 230.0
+offset_bottom = 86.0
+size_flags_vertical = 0
+theme_override_constants/separation = 10
+theme_override_constants/port_h_offset = -10
+theme_override_styles/titlebar = ExtResource("1_xp0ag")
+resizable = true
+title = "NPC"
+slot/0/left_enabled = true
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+script = ExtResource("2_t7pwb")
+
+[node name="TextEditLine" type="TextEdit" parent="."]
+layout_mode = 2
+placeholder_text = "Enter line..."
+scroll_fit_content_height = true
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+initial_position = 2
+ok_button_text = "Yes"
+dialog_text = "Delete this node?"
+cancel_button_text = "No"
+
+[connection signal="text_changed" from="TextEditLine" to="." method="set_line"]
+[connection signal="confirmed" from="ConfirmationDialog" to="." method="delete"]

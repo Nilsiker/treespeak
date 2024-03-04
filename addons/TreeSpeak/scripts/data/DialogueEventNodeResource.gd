@@ -1,0 +1,4 @@
+class_name DialogueEventNodeResource
+extends DialogueNodeResource
+
+@export var event_name: StringName
