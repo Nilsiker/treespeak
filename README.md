@@ -1,8 +1,12 @@
 # TreeSpeak
 
+⚠️ CAUTION: Work in progress. This plugin is missing core features and is not usable in its current state ⚠️
+
 TreeSpeak is a dialogue graph plugin and editor for Godot 4. 
 
 Created by Scanian Forest.
+
+![alt text](media/image.png)
 
 ## Features
 
@@ -12,18 +16,6 @@ Created by Scanian Forest.
 ## Architectural overview
 
 This sections outlines how the plugin is designed.
-
-![alt text](media/image.png)
-
-The plugin consists of:
-
-* A custom in-engine editor for designing dialogues
-* A DialogueManager singleton to start dialogues using files (JSON) created in the custom editor.
-* A DialogueChannel singleton, exposing signals so that your game systems can listen to and react to dialogue events.
-* A basic UI framework to display the dialogues in-game
-  * NPC and player portraits
-  * Scrolling text
-  * Selectable dialogue options
 
 ```mermaid
 classDiagram
@@ -65,6 +57,19 @@ DialogueNode --|> GraphNode
 TreespeakerGraph --o DialogueNode
 TreespeakerGraph --|> GraphEdit
 ```
+
+
+## Roadmap
+
+This plugin will feature the following:
+
+* A custom in-engine editor for designing dialogues
+* A DialogueManager singleton to start dialogues using files (JSON) created in the custom editor.
+* A DialogueChannel singleton, exposing signals so that your game systems can listen to and react to dialogue events.
+* A basic UI framework to display the dialogues in-game
+  * NPC and player portraits
+  * Scrolling text
+  * Selectable dialogue options
 
 
 ## Attributions
