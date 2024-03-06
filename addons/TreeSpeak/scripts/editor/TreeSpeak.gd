@@ -16,5 +16,8 @@ func _process(delta):
 
 
 func debug_print():
-	print(graph.get_graph())
-	
+	print("=====TreeSpeak Debug Print======\n")
+	print("nodes: ", graph.resource.nodes)
+	print("positions: ", graph.resource.positions)
+	print("connections: ", graph.resource.connections)
+	print("\n================================\n")

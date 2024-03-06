@@ -11,9 +11,9 @@ config_version=5
 [application]
 
 config/name="treespeak"
-run/main_scene="res://addons/TreeSpeak/components/dialogue_label.tscn"
+run/main_scene="res://addons/TreeSpeak/examples/dialogue_ui.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="res://addons/TreeSpeak/solid-leaf.svg"
 
 [dotnet]
 

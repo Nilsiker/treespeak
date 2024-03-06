@@ -1,13 +1,18 @@
-[gd_scene load_steps=14 format=3 uid="uid://bxjlo4pu1oafu"]
+[gd_scene load_steps=11 format=3 uid="uid://bxjlo4pu1oafu"]
 
 [ext_resource type="Script" path="res://addons/TreeSpeak/scripts/editor/TreeSpeak.gd" id="1_jiqaj"]
 [ext_resource type="Script" path="res://addons/TreeSpeak/scripts/editor/TreeSpeakGraph.gd" id="2_jarrc"]
 [ext_resource type="Script" path="res://addons/TreeSpeak/scripts/editor/TreeSpeakGraphContextMenu.gd" id="3_keeji"]
-[ext_resource type="PackedScene" uid="uid://clq4ka7pgcrwc" path="res://addons/TreeSpeak/components/dialogue_player_node.tscn" id="4_jh7hl"]
-[ext_resource type="PackedScene" uid="uid://b4v5ouf3ph0h8" path="res://addons/TreeSpeak/components/dialogue_npc_node.tscn" id="5_0ww6j"]
-[ext_resource type="PackedScene" uid="uid://ds3ifj2tiar7h" path="res://addons/TreeSpeak/components/dialogue_event_node.tscn" id="6_xa2ce"]
-[ext_resource type="Script" path="res://addons/TreeSpeak/scripts/data/DialogueEventNodeResource.gd" id="7_38htx"]
+[ext_resource type="Script" path="res://addons/TreeSpeak/scripts/data/DialogueGraphResource.gd" id="3_trlh3"]
 [ext_resource type="Script" path="res://addons/TreeSpeak/scripts/editor/TreeSpeakFileDialog.gd" id="8_p83s7"]
+
+[sub_resource type="Resource" id="Resource_oor6w"]
+script = ExtResource("3_trlh3")
+dialogue_id = ""
+npc_name = ""
+nodes = {}
+positions = {}
+connections = Array[Dictionary]([])
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hgo18"]
 
@@ -34,11 +39,6 @@ expand_margin_left = 4.0
 expand_margin_top = 4.0
 expand_margin_right = 4.0
 expand_margin_bottom = 4.0
-
-[sub_resource type="Resource" id="Resource_wk4oc"]
-script = ExtResource("7_38htx")
-event_name = &"AddBall"
-next = Array[Resource("res://addons/TreeSpeak/scripts/data/DialogueNodeResource.gd")]([])
 
 [node name="TreeSpeak" type="VBoxContainer"]
 anchors_preset = 15
@@ -82,6 +82,7 @@ right_disconnects = true
 minimap_enabled = false
 script = ExtResource("2_jarrc")
 popup = NodePath("TreeSpeakGraphContextMenu")
+resource = SubResource("Resource_oor6w")
 
 [node name="TreeSpeakGraphContextMenu" type="PopupMenu" parent="TreeSpeakGraph"]
 size = Vector2i(157, 89)
@@ -94,16 +95,16 @@ item_2/text = "Add Event Node"
 item_2/id = 2
 script = ExtResource("3_keeji")
 
-[node name="NodeStart" type="GraphNode" parent="TreeSpeakGraph"]
+[node name="START" type="GraphNode" parent="TreeSpeakGraph"]
 layout_mode = 0
-offset_left = 201.0
-offset_top = 151.0
-offset_right = 249.0
-offset_bottom = 197.0
+offset_left = 204.0
+offset_top = 174.0
+offset_right = 252.0
+offset_bottom = 220.0
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxEmpty_hgo18")
 theme_override_styles/titlebar = SubResource("StyleBoxFlat_cvwrj")
-position_offset = Vector2(201, 151)
+position_offset = Vector2(204, 174)
 title = "START"
 slot/0/left_enabled = false
 slot/0/left_type = 0
@@ -115,10 +116,10 @@ slot/0/right_color = Color(1, 1, 1, 1)
 slot/0/right_icon = null
 slot/0/draw_stylebox = true
 
-[node name="Label" type="Label" parent="TreeSpeakGraph/NodeStart"]
+[node name="Slot" type="Control" parent="TreeSpeakGraph/START"]
 layout_mode = 2
 
-[node name="NodeEnd" type="GraphNode" parent="TreeSpeakGraph"]
+[node name="END" type="GraphNode" parent="TreeSpeakGraph"]
 layout_mode = 0
 offset_left = 767.0
 offset_top = 151.0
@@ -140,40 +141,13 @@ slot/0/right_color = Color(1, 1, 1, 1)
 slot/0/right_icon = null
 slot/0/draw_stylebox = true
 
-[node name="Label" type="Label" parent="TreeSpeakGraph/NodeEnd"]
+[node name="Slot" type="Control" parent="TreeSpeakGraph/END"]
 layout_mode = 2
-
-[node name="DialoguePlayerNode" parent="TreeSpeakGraph" instance=ExtResource("4_jh7hl")]
-layout_mode = 0
-offset_left = 275.0
-offset_top = 267.0
-offset_right = 505.0
-offset_bottom = 394.0
-position_offset = Vector2(275, 267)
-
-[node name="DialogueNpcNode" parent="TreeSpeakGraph" instance=ExtResource("5_0ww6j")]
-layout_mode = 0
-offset_left = 572.0
-offset_top = 272.0
-offset_right = 802.0
-offset_bottom = 354.0
-mouse_filter = 1
-position_offset = Vector2(572, 272)
-
-[node name="DialogueEventNode" parent="TreeSpeakGraph" instance=ExtResource("6_xa2ce")]
-layout_mode = 0
-offset_left = 576.0
-offset_top = 422.0
-offset_right = 806.0
-offset_bottom = 500.0
-mouse_filter = 1
-position_offset = Vector2(576, 422)
-event = SubResource("Resource_wk4oc")
 
 [node name="TreeSpeakFileDialog" type="FileDialog" parent="."]
 initial_position = 2
 size = Vector2i(450, 450)
-filters = PackedStringArray("*.json ; JSON Files")
+filters = PackedStringArray("*.tres ; Text Resource", "*.res ; Binary Resource")
 use_native_dialog = true
 script = ExtResource("8_p83s7")
 
@@ -185,5 +159,6 @@ dialog_text = "Delete selected nodes?
 (Remember, there is no CTRL-Z support)"
 
 [connection signal="pressed" from="MenuButtons/ButtonSave" to="TreeSpeakFileDialog" method="prompt_save"]
+[connection signal="pressed" from="MenuButtons/ButtonLoad" to="TreeSpeakFileDialog" method="prompt_load"]
 [connection signal="pressed" from="MenuButtons/ButtonDebugPrint" to="." method="debug_print"]
 [connection signal="confirmed" from="TreeSpeakDeleteNodesDialog" to="TreeSpeakGraph" method="_delete_nodes_confirmed"]

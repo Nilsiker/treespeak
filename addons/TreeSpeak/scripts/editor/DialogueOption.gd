@@ -2,14 +2,17 @@
 extends PanelContainer
 
 signal removed_clicked(index: int)
+signal text_updated(index: int, text: String)
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	$HBox/TextEdit.text_changed.connect(_on_textedit_text_changed)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func get_text(): return $HBox/TextEdit.text
+
+func set_text(text: String): $HBox/TextEdit.text = text
 
 func remove():
 	removed_clicked.emit(get_index())
+
+func _on_textedit_text_changed():
+	text_updated.emit(get_index(), get_text())

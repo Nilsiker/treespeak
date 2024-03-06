@@ -2,6 +2,16 @@
 class_name DialogueEventNode
 extends DialogueNode
 
-var STYLE_EVENT = preload ("res://addons/TreeSpeak/resources/styles/style_dialogue_node_event.tres")
+signal event_name_changed(name: StringName)
 
-@export var event: DialogueEventNodeResource
+func _ready():
+    super._ready()
+    resource = DialogueEventNodeResource.new()
+    $EventName.text_changed.connect(update_resource)
+
+func set_resource(resource: DialogueEventNodeResource):
+    self.resource = resource
+    $EventName.text = resource.event_name
+
+func update_resource(text: String):
+    resource.event_name = text

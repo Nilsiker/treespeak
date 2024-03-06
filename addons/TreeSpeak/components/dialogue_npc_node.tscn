@@ -23,7 +23,7 @@ slot/0/right_icon = null
 slot/0/draw_stylebox = true
 script = ExtResource("2_t7pwb")
 
-[node name="TextEditLine" type="TextEdit" parent="."]
+[node name="Line" type="TextEdit" parent="."]
 layout_mode = 2
 placeholder_text = "Enter line..."
 scroll_fit_content_height = true
@@ -34,5 +34,5 @@ ok_button_text = "Yes"
 dialog_text = "Delete this node?"
 cancel_button_text = "No"
 
-[connection signal="text_changed" from="TextEditLine" to="." method="set_line"]
+[connection signal="text_changed" from="Line" to="." method="set_line"]
 [connection signal="confirmed" from="ConfirmationDialog" to="." method="delete"]

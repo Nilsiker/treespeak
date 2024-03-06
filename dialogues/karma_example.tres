@@ -1,0 +1,70 @@
+[gd_resource type="Resource" script_class="DialogueGraphResource" load_steps=9 format=3 uid="uid://d0dpekq7j6i77"]
+
+[ext_resource type="Script" path="res://addons/TreeSpeak/scripts/data/DialoguePlayerNodeResource.gd" id="1_0gqdi"]
+[ext_resource type="Script" path="res://addons/TreeSpeak/scripts/data/DialogueGraphResource.gd" id="2_dtpxp"]
+[ext_resource type="Script" path="res://addons/TreeSpeak/scripts/data/DialogueNpcNodeResource.gd" id="2_rjydq"]
+[ext_resource type="Script" path="res://addons/TreeSpeak/scripts/data/DialogueEventNodeResource.gd" id="3_4puut"]
+
+[sub_resource type="Resource" id="Resource_offsl"]
+script = ExtResource("3_4puut")
+event_name = "AddKarma(2)"
+
+[sub_resource type="Resource" id="Resource_1k5d0"]
+script = ExtResource("2_rjydq")
+line = "Thank you, kind sir!"
+
+[sub_resource type="Resource" id="Resource_3kqto"]
+script = ExtResource("2_rjydq")
+line = "Hello there, stranger!"
+
+[sub_resource type="Resource" id="Resource_5ps5o"]
+script = ExtResource("1_0gqdi")
+options = Array[String](["<Leave the man alone>", "<Give him a coin>"])
+
+[resource]
+script = ExtResource("2_dtpxp")
+dialogue_id = ""
+npc_name = ""
+nodes = {
+"DialogueEventNode": SubResource("Resource_offsl"),
+"DialogueNpcNode": SubResource("Resource_1k5d0"),
+"DialogueNpcNode2": SubResource("Resource_3kqto"),
+"DialoguePlayerNode": SubResource("Resource_5ps5o")
+}
+positions = {
+"DialogueEventNode": Vector2(1000, 280),
+"DialogueNpcNode": Vector2(680, 280),
+"DialogueNpcNode2": Vector2(80, 320),
+"DialoguePlayerNode": Vector2(340, 140)
+}
+connections = Array[Dictionary]([{
+"from_node": &"DialoguePlayerNode",
+"from_port": 1,
+"to_node": &"DialogueNpcNode",
+"to_port": 0
+}, {
+"from_node": &"DialoguePlayerNode",
+"from_port": 0,
+"to_node": &"END",
+"to_port": 0
+}, {
+"from_node": &"DialogueNpcNode",
+"from_port": 0,
+"to_node": &"DialogueEventNode",
+"to_port": 0
+}, {
+"from_node": &"DialogueEventNode",
+"from_port": 0,
+"to_node": &"END",
+"to_port": 0
+}, {
+"from_node": &"START",
+"from_port": 0,
+"to_node": &"DialogueNpcNode2",
+"to_port": 0
+}, {
+"from_node": &"DialogueNpcNode2",
+"from_port": 0,
+"to_node": &"DialoguePlayerNode",
+"to_port": 0
+}])

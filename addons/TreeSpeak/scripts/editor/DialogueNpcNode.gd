@@ -2,20 +2,16 @@
 class_name DialogueNpcNode
 extends DialogueNode
 
-var line: String 
-var next: DialogueNodeResource
+
+func set_resource(resource):
+    self.resource = resource
+    $Line.text = resource.line
 
 
-func set_line(): 
-    self.line = $TextEditLine.text
+func _ready():
+    super._ready()
+    resource = DialogueNpcNodeResource.new()
+    $Line.text_changed.connect(_on_textedit_text_changed)
 
-
-func to_res() -> DialogueNpcNodeResource:
-    var res = DialogueNpcNodeResource.new()
-    res.line = line
-    return res
-
-
-func from_res(res: DialogueNpcNodeResource):
-    line = res.line
-
+func _on_textedit_text_changed():
+    resource.line = $Line.text

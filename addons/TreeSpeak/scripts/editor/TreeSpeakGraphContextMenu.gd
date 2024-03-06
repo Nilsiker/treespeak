@@ -2,10 +2,10 @@
 class_name TreeSpeakGraphContextMenu
 extends PopupMenu
 
-enum PopupOption {
-	NewPlayerNode,
-	NewNPCNode,
-	NewEventNode
+enum NodeType {
+	Player,
+	NPC,
+	Event
 }
 
 signal autolink_requested(from: StringName, port: int, to: StringName)
@@ -24,31 +24,19 @@ func open(position: Vector2, from: StringName="", port: int =- 1):
 	autolink_from = from
 	autolink_port = port
 
-func create_player_node(position: Vector2) -> Node:
-	var node: Node = player_node.instantiate()
-	add_sibling(node)
-	node.position_offset = position
+func request_create_node(position: Vector2, type: NodeType, name: StringName = "") -> Node:
+	var node
+	match type:
+		NodeType.Player:
+			node = player_node.instantiate()
+		NodeType.NPC:
+			node = npc_node.instantiate()
+		NodeType.Event:
+			node = event_node.instantiate()
 
-	if autolink_from:
-		autolink_requested.emit(autolink_from, autolink_port, node.name)
-		autolink_from = ""
-
-	return node
-
-func create_npc_node(position: Vector2) -> Node:
-	var node: Node = npc_node.instantiate()
-	add_sibling(node)
-	node.position_offset = position
-
-	if autolink_from:
-		autolink_requested.emit(autolink_from, autolink_port, node.name)
-		autolink_from = ""
-
-	return node
-
-func create_event_node(position: Vector2) -> Node:
-	var node: Node = event_node.instantiate()
-	add_sibling(node)
+	if name:
+		node.name = name
+	add_sibling(node, true)
 	node.position_offset = position
 
 	if autolink_from:

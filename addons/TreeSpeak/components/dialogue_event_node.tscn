@@ -23,14 +23,6 @@ slot/0/right_icon = null
 slot/0/draw_stylebox = true
 script = ExtResource("2_p7tqs")
 
-[node name="LineEdit" type="LineEdit" parent="."]
+[node name="EventName" type="LineEdit" parent="."]
 layout_mode = 2
 placeholder_text = "Enter event name..."
-
-[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
-initial_position = 2
-ok_button_text = "Yes"
-dialog_text = "Delete this node?"
-cancel_button_text = "No"
-
-[connection signal="confirmed" from="ConfirmationDialog" to="." method="delete"]
