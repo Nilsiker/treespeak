@@ -1,0 +1,60 @@
+[gd_resource type="Resource" script_class="DialogueGraphResource" load_steps=9 format=3 uid="uid://6kensvnkc2l6"]
+
+[ext_resource type="Script" path="res://addons/TreeSpeak/scripts/data/DialogueNpcNodeResource.gd" id="1_ouw2g"]
+[ext_resource type="Script" path="res://addons/TreeSpeak/scripts/data/DialoguePlayerNodeResource.gd" id="2_1yse6"]
+[ext_resource type="Script" path="res://addons/TreeSpeak/scripts/data/DialogueEventNodeResource.gd" id="3_ko7uv"]
+[ext_resource type="Script" path="res://addons/TreeSpeak/scripts/data/DialogueGraphResource.gd" id="4_s2bhj"]
+
+[sub_resource type="Resource" id="Resource_mecmw"]
+script = ExtResource("3_ko7uv")
+event_name = &"AddKarma(-2)"
+
+[sub_resource type="Resource" id="Resource_3mr4s"]
+script = ExtResource("1_ouw2g")
+line = "Hey man, what's up?"
+
+[sub_resource type="Resource" id="Resource_tpj7n"]
+script = ExtResource("1_ouw2g")
+line = "Whoa, calm down!"
+
+[sub_resource type="Resource" id="Resource_ye0se"]
+script = ExtResource("2_1yse6")
+options = Array[String](["Hey, nothin' much. I need to go.", "That's none of your business!"])
+
+[resource]
+script = ExtResource("4_s2bhj")
+dialogue_id = ""
+npc_name = ""
+nodes = {
+"DialogueEventNode": SubResource("Resource_mecmw"),
+"DialogueNpcNode": SubResource("Resource_3mr4s"),
+"DialogueNpcNode2": SubResource("Resource_tpj7n"),
+"DialoguePlayerNode": SubResource("Resource_ye0se")
+}
+positions = {
+"DialogueEventNode": Vector2(1200, 380),
+"DialogueNpcNode": Vector2(160, 160),
+"DialogueNpcNode2": Vector2(915.433, 386.73),
+"DialoguePlayerNode": Vector2(500, 180)
+}
+connections = Array[Dictionary]([{
+"from_node": &"START",
+"from_port": 0,
+"to_node": &"DialogueNpcNode",
+"to_port": 0
+}, {
+"from_node": &"DialogueNpcNode",
+"from_port": 0,
+"to_node": &"DialoguePlayerNode",
+"to_port": 0
+}, {
+"from_node": &"DialoguePlayerNode",
+"from_port": 1,
+"to_node": &"DialogueNpcNode2",
+"to_port": 0
+}, {
+"from_node": &"DialogueNpcNode2",
+"from_port": 0,
+"to_node": &"DialogueEventNode",
+"to_port": 0
+}])

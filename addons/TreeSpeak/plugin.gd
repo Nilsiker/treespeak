@@ -12,10 +12,12 @@ func _enter_tree():
 	# Load the main_panel scene and instantiate it.
 	main_panel_instance = main_panel.instantiate()
 	_make_visible(false)
-
+	
+	add_autoload_singleton("DialogueManager", "res://addons/TreeSpeak/scripts/DialogueManager.gd")
 	EditorInterface.get_editor_main_screen().add_child(main_panel_instance)
 
 func _exit_tree():
+	remove_autoload_singleton("DialogueManager")
 	if main_panel_instance:
 		main_panel_instance.queue_free()
 

@@ -1,10 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://d4ljw426dyg5l"]
+[gd_scene load_steps=8 format=3 uid="uid://d4ljw426dyg5l"]
 
 [ext_resource type="Script" path="res://addons/TreeSpeak/scripts/ui/DialogueUI.gd" id="1_25luy"]
-[ext_resource type="Resource" uid="uid://d0dpekq7j6i77" path="res://dialogues/karma_example.tres" id="2_2pm84"]
 [ext_resource type="Script" path="res://addons/TreeSpeak/scripts/ui/DialogueOptionsList.gd" id="2_anbcs"]
+[ext_resource type="Script" path="res://addons/TreeSpeak/scripts/ui/HistoryScrollBox.gd" id="4_2extt"]
+[ext_resource type="Script" path="res://addons/TreeSpeak/scripts/ui/ToggleButton.gd" id="5_v64ac"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5u6lr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i5p7o"]
+bg_color = Color(0.196078, 0.196078, 0.196078, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m8vmm"]
 
 [node name="DialogueUI" type="Control" node_paths=PackedStringArray("options", "line")]
 layout_mode = 3
@@ -14,11 +20,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_25luy")
-options = NodePath("HBoxContainer/PlayerBox/Margins/VBoxContainer/DialogueOptionsList")
-line = NodePath("HBoxContainer/NpcBox/Margins/VBoxContainer/NpcLine")
-dialogue = ExtResource("2_2pm84")
+options = NodePath("DialogueBoxes/PlayerBox/Margins/VBoxContainer/DialogueOptionsList")
+line = NodePath("DialogueBoxes/NpcBox/Margins/VBoxContainer/NpcLine")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="DialogueBoxes" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(0, 140)
 layout_mode = 1
 anchors_preset = 12
@@ -29,26 +34,26 @@ offset_top = -121.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="PlayerBox" type="PanelContainer" parent="HBoxContainer"]
+[node name="PlayerBox" type="PanelContainer" parent="DialogueBoxes"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Margins" type="MarginContainer" parent="HBoxContainer/PlayerBox"]
+[node name="Margins" type="MarginContainer" parent="DialogueBoxes/PlayerBox"]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PlayerBox/Margins"]
+[node name="VBoxContainer" type="VBoxContainer" parent="DialogueBoxes/PlayerBox/Margins"]
 layout_mode = 2
 
-[node name="PlayerLabel" type="Label" parent="HBoxContainer/PlayerBox/Margins/VBoxContainer"]
+[node name="PlayerLabel" type="Label" parent="DialogueBoxes/PlayerBox/Margins/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "You"
 
-[node name="DialogueOptionsList" type="ItemList" parent="HBoxContainer/PlayerBox/Margins/VBoxContainer"]
+[node name="DialogueOptionsList" type="ItemList" parent="DialogueBoxes/PlayerBox/Margins/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/guide_color = Color(0, 0, 0, 0)
@@ -64,27 +69,84 @@ item_2/text = "○ Play Cards"
 item_3/text = "○ Leave"
 script = ExtResource("2_anbcs")
 
-[node name="NpcBox" type="PanelContainer" parent="HBoxContainer"]
+[node name="NpcBox" type="PanelContainer" parent="DialogueBoxes"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Margins" type="MarginContainer" parent="HBoxContainer/NpcBox"]
+[node name="Margins" type="MarginContainer" parent="DialogueBoxes/NpcBox"]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/NpcBox/Margins"]
+[node name="VBoxContainer" type="VBoxContainer" parent="DialogueBoxes/NpcBox/Margins"]
 layout_mode = 2
 
-[node name="NpcLabel" type="Label" parent="HBoxContainer/NpcBox/Margins/VBoxContainer"]
+[node name="NpcLabel" type="Label" parent="DialogueBoxes/NpcBox/Margins/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "NPC Name"
 horizontal_alignment = 2
 
-[node name="NpcLine" type="Label" parent="HBoxContainer/NpcBox/Margins/VBoxContainer"]
+[node name="NpcLine" type="Label" parent="DialogueBoxes/NpcBox/Margins/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Lorem ipsum..."
+
+[node name="HistoryContainer" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -435.0
+offset_right = 200.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 2
+
+[node name="HistoryScrollBox" type="ScrollContainer" parent="HistoryContainer"]
+visible = false
+custom_minimum_size = Vector2(400, 400)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_i5p7o")
+horizontal_scroll_mode = 0
+script = ExtResource("4_2extt")
+
+[node name="Margins" type="MarginContainer" parent="HistoryContainer/HistoryScrollBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+
+[node name="Label" type="Label" parent="HistoryContainer/HistoryScrollBox/Margins"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "YOU:
+Dialogue systems should be designed to allow players to experience the story in a meaningful way.
+
+NPC NAME:
+Dialogue should be written in a way that is engaging and interesting, and it should be tailored to the characters’ personalities.
+
+Additionally, dialogue should be used to convey important plot points and character motivations throughout the gameplay. Overusing cutscenes and cinematics not only increases the cost of game development but also reduces player agency. 
+
+Though cinematics might look cool to investors or in promotional trailers, they can take the player out of the game world by removing their ability to control events.
+
+Intuitive quest design is also important in RPG dialogue systems, as it allows players to progress in the game and engage with the narrative. Quests should be designed in a way that is interesting and engaging for player immersion. Along with proper game design that helps to ensure that the dialogue is engaging and that the game is fun to play, quest design should create interesting and engaging encounters and puzzles throughout the game."
+autowrap_mode = 2
+
+[node name="Button" type="Button" parent="HistoryContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_m8vmm")
+toggle_mode = true
+text = "SHOW HISTORY"
+script = ExtResource("5_v64ac")
+on_text = "HIDE HISTORY"
+off_text = "SHOW HISTORY"
+
+[connection signal="toggled" from="HistoryContainer/Button" to="HistoryContainer/HistoryScrollBox" method="set_visible"]
