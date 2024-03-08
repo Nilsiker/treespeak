@@ -24,5 +24,5 @@ func _on_confirmed():
 			var result = ResourceSaver.save(resource, current_path)
 			print(result == OK)
 		FILE_MODE_OPEN_FILE:
-			var resource = ResourceLoader.load(current_path, "DialogueGraphResource").duplicate() # NOTE to work on non-saved resource
+			var resource = ResourceLoader.load(current_path, "DialogueGraphResource")
 			%TreeSpeakGraph.load_res(resource)
