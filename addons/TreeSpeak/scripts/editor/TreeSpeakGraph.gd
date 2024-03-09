@@ -23,7 +23,8 @@ func _ready():
 	popup.id_pressed.connect(_on_popup_id_pressed)
 	popup.autolink_requested.connect(_on_autolink_request)
 
-	$START.visible = resource != null
+	start.get_node("NpcName").text_changed.connect(func(new_name): resource.npc_name = new_name)
+	start.visible = resource != null
 
 func connect_nodes(from_node: StringName, from_port: int, to_node: StringName, to_port: int):
 	connect_node(from_node, from_port, to_node, to_port)
@@ -83,6 +84,12 @@ func _on_node_deleted(node: StringName):
 func _on_node_position_updated(name: StringName, position: Vector2):
 	resource.update_position(name, position)
 
+func _on_node_size_updated(name: StringName, size: Vector2):
+	resource.update_size(name, size)
+
+func _on_npc_name_updated(name: String):
+	resource.npc_name = name
+
 func _on_slot_removed(node: StringName, port_index: int):
 	print("removed slot ", port_index, " on ", node)
 	for conn in get_connection_list():
@@ -97,6 +104,17 @@ func get_graph_pos(position: Vector2) -> Vector2:
 func update_connections():
 	resource.connections = get_connection_list()
 
+# func _add_node(node: Dictionary):
+# 	var data = node.data
+	
+# 	if data is DialoguePlayerNodeResource:
+# 		created_node = popup.request_create_node(position, TreeSpeakGraphContextMenu.NodeType.Player, node)
+# 		created_node.slot_removed.connect(_on_slot_removed)
+# 	elif data is DialogueNpcNodeResource:
+# 		created_node = popup.request_create_node(position, TreeSpeakGraphContextMenu.NodeType.NPC, node)
+# 	elif data is DialogueEventNodeResource:
+# 		created_node = popup.request_create_node(position, TreeSpeakGraphContextMenu.NodeType.Event, node)
+
 func clear_nodes():
 	for node in get_children().filter(func(c): return c is DialogueNode):
 		node.queue_free()	# or delete?
@@ -106,8 +124,9 @@ func load_res(res: DialogueGraphResource):
 	print("loaded ", res)
 	resource = res
 	for node in res.nodes.keys():
-		var data = res.nodes[node]
-		var position = res.positions[node]
+		var data = res.nodes[node].data
+		var position = res.nodes[node].position
+		var size = res.nodes[node].size
 		var created_node
 		if data is DialoguePlayerNodeResource:
 			created_node = popup.request_create_node(position, TreeSpeakGraphContextMenu.NodeType.Player, node)
@@ -119,12 +138,14 @@ func load_res(res: DialogueGraphResource):
 		created_node.set_resource(data)
 		created_node.deleted.connect(_on_node_deleted)
 		created_node.position_updated.connect(_on_node_position_updated)
+		created_node.size_updated.connect(_on_node_size_updated)
 
 	for conn in res.connections:
 		connect_node(conn.from_node, conn.from_port, conn.to_node, conn.to_port)
 
 	graph_loaded.emit(res)
-	$START.visible = resource != null
+	start.visible = resource != null
+	start.get_node("NpcName").text = resource.npc_name
 
 
 ## File drop functionality

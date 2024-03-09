@@ -42,9 +42,6 @@ text = "DebugPrint
 "
 flat = true
 
-[node name="VSeparator" type="VSeparator" parent="MenuButtons"]
-layout_mode = 2
-
 [node name="TreeSpeakGraph" type="GraphEdit" parent="." node_paths=PackedStringArray("popup")]
 unique_name_in_owner = true
 layout_mode = 2
@@ -70,6 +67,7 @@ script = ExtResource("2_eqxgb")
 
 [node name="TreeSpeakGraphContextMenu" type="PopupMenu" parent="TreeSpeakGraph"]
 size = Vector2i(157, 89)
+unfocusable = true
 item_count = 3
 item_0/text = "Add Player Node"
 item_0/id = 0
@@ -81,13 +79,15 @@ script = ExtResource("3_keeji")
 
 [node name="START" type="GraphNode" parent="TreeSpeakGraph"]
 layout_mode = 0
-offset_left = 259.0
-offset_top = 175.0
-offset_right = 460.0
-offset_bottom = 278.0
+offset_left = 401.0
+offset_top = 202.0
+offset_right = 602.0
+offset_bottom = 330.0
 mouse_filter = 1
 theme_override_styles/titlebar = SubResource("StyleBoxFlat_cvwrj")
-position_offset = Vector2(259, 175)
+position_offset = Vector2(401, 202)
+draggable = false
+selectable = false
 title = "Dialogue"
 slot/0/left_enabled = false
 slot/0/left_type = 0
@@ -107,12 +107,25 @@ slot/1/right_type = 0
 slot/1/right_color = Color(1, 1, 1, 1)
 slot/1/right_icon = null
 slot/1/draw_stylebox = true
+slot/2/left_enabled = false
+slot/2/left_type = 0
+slot/2/left_color = Color(1, 1, 1, 1)
+slot/2/left_icon = null
+slot/2/right_enabled = false
+slot/2/right_type = 0
+slot/2/right_color = Color(1, 1, 1, 1)
+slot/2/right_icon = null
+slot/2/draw_stylebox = true
 script = ExtResource("6_fhmo6")
 
 [node name="Slot" type="Label" parent="TreeSpeakGraph/START"]
 layout_mode = 2
 text = "START"
 horizontal_alignment = 2
+
+[node name="NameLabel" type="Label" parent="TreeSpeakGraph/START"]
+layout_mode = 2
+text = "NPC Name"
 
 [node name="NpcName" type="LineEdit" parent="TreeSpeakGraph/START"]
 layout_mode = 2
@@ -134,4 +147,5 @@ dialog_text = "Delete selected nodes?
 
 [connection signal="pressed" from="MenuButtons/ButtonNew" to="TreeSpeakFileDialog" method="prompt_save"]
 [connection signal="pressed" from="MenuButtons/ButtonDebugPrint" to="." method="debug_print"]
+[connection signal="text_changed" from="TreeSpeakGraph/START/NpcName" to="TreeSpeakGraph" method="_on_npc_name_updated"]
 [connection signal="confirmed" from="TreeSpeakDeleteNodesDialog" to="TreeSpeakGraph" method="_delete_nodes_confirmed"]
