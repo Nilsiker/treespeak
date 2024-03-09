@@ -22,40 +22,63 @@ classDiagram
 namespace Godot {
 	class GraphNode
 	class GraphEdit
+	class Resource
 }
-namespace Control {
-	class TreespeakerGraph
+namespace Editor {
+	class TreeSpeakGraph
 	class DialogueNode {
 		<<abstract>>
+		deleted: signal
+		position_updated: signal
+		resource: Resource
+		set_resource() abstract void
 	}
-	class DialoguePlayerNode
+	class DialoguePlayerNode {
+		slot_removed: signal
+		dialogue_option: DialogueOption
+		_option_index: int
+		_set_options(options: Array~String~)
+	}
 	class DialogueNpcNode
 	class DialogueEventNode
 }
 
 namespace Model {
 	class DialogueGraphResource {
-		current: DialogueNodeResource
-		next() DialogueNodeResource
+		nodes: Dictionary~StringName,Resource~
+		positions: Dictionary~StringName,Vector2~ 
+		connections: Dictionary
 	}
-	class DialogueNodeResource {
-		next: DialogueNodeResource
+	class DialoguePlayerNodeResource { 
+		+ options~String~ 
 	}
-	class DialoguePlayerNodeResource
-	class DialogueNpcNodeResource
-	class DialogueEventNodeResource
+	class DialogueNpcNodeResource { 
+		+ line: String 
+	}
+	class DialogueEventNodeResource {
+		+ event_name: String 
+	}
 }
 
-DialoguePlayerNodeResource --|> DialogueNodeResource
-DialogueNpcNodeResource --|> DialogueNodeResource
-DialogueEventNodeResource --|> DialogueNodeResource
+namespace Controller {
+	class DialogueManager {
+		dialogue_updated: signal
+		dialogue_closed: signal
+		graph: DialogueGraphResource
+	}	
+}
+
+DialogueGraphResource o-- Resource
+DialoguePlayerNodeResource --|> Resource
+DialogueNpcNodeResource --|> Resource
+DialogueEventNodeResource --|> Resource
 
 DialoguePlayerNode --|> DialogueNode
 DialogueNpcNode --|> DialogueNode
 DialogueEventNode --|> DialogueNode
 DialogueNode --|> GraphNode
-TreespeakerGraph --o DialogueNode
-TreespeakerGraph --|> GraphEdit
+TreeSpeakGraph o-- DialogueNode
+TreeSpeakGraph --|> GraphEdit
 ```
 
 

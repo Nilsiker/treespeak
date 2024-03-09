@@ -8,21 +8,22 @@ enum PopupOption {
 	NewEventNode
 }
 
+signal graph_loaded(graph)
+
 @export var popup: TreeSpeakGraphContextMenu
 @export var resource: DialogueGraphResource
 
-@onready var start: GraphNode = $START
-@onready var end: GraphNode = $END
+@onready var start: DialogueStart = $START
 
-func _ready():
-	resource = DialogueGraphResource.new()
-	
+func _ready():	
 	connection_to_empty.connect(_on_connection_to_empty)
 	connection_request.connect(connect_nodes)
 	disconnection_request.connect(disconnect_nodes)
 
 	popup.id_pressed.connect(_on_popup_id_pressed)
 	popup.autolink_requested.connect(_on_autolink_request)
+
+	$START.visible = resource != null
 
 func connect_nodes(from_node: StringName, from_port: int, to_node: StringName, to_port: int):
 	connect_node(from_node, from_port, to_node, to_port)
@@ -99,10 +100,11 @@ func update_connections():
 
 func clear_nodes():
 	for node in get_children().filter(func(c): return c is DialogueNode):
-		node.delete()
+		node.queue_free()	# or delete?
 
 func load_res(res: DialogueGraphResource):
 	clear_nodes() # FIXME this doesn't clear the nodes in time for the loaded nodes to enter, which causes issues with naming
+	print("loaded ", res)
 	resource = res
 	for node in res.nodes.keys():
 		var data = res.nodes[node]
@@ -121,3 +123,19 @@ func load_res(res: DialogueGraphResource):
 
 	for conn in res.connections:
 		connect_node(conn.from_node, conn.from_port, conn.to_node, conn.to_port)
+
+	graph_loaded.emit(res)
+	$START.visible = resource != null
+
+
+## File drop functionality
+func _can_drop_data(at_position, data):
+	if data.type == "files" and data.files:
+		var split: Array = data.files[0].split(".")
+		return split.back() == "tres"
+	return false
+
+func _drop_data(at_position, data):
+	print("dropped ", data)
+	var res = load(data.files[0])
+	load_res(res)

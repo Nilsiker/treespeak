@@ -7,6 +7,8 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	get_viewport().gui_embed_subwindows = false
+	get_tree().root.files_dropped.connect(_on_files_dropped)
 	pass # Replace with function body.
 
 
@@ -21,3 +23,9 @@ func debug_print():
 	print("positions: ", graph.resource.positions)
 	print("connections: ", graph.resource.connections)
 	print("\n================================\n")
+
+
+
+func _on_files_dropped(files: PackedStringArray):
+	print(files)
+	pass

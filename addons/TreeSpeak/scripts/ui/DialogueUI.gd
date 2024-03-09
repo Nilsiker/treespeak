@@ -16,10 +16,11 @@ func _ready():
 		
 
 func _on_dialogue_manager_updated(resource):
-	print(resource)
 	if resource is DialogueNpcNodeResource:
+		print("Npc node")
 		line.text = resource.line
 	elif resource is DialoguePlayerNodeResource:
+		print("Player node")
 		options.set_options(resource.options)
 	options.visible = resource is DialoguePlayerNodeResource
 

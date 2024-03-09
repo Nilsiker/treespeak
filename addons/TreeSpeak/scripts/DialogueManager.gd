@@ -6,7 +6,6 @@ signal ended()
 @export var graph: DialogueGraphResource # TODO remove export
 @export var current: StringName
 
-
 func start_dialogue(graph: DialogueGraphResource):
 	self.graph = graph
 	var start_connection = graph.connections.filter(func(conn): return conn.from_node == &"START").front()
@@ -20,19 +19,16 @@ func start_dialogue(graph: DialogueGraphResource):
 	updated.emit(current_resource)
 
 func transition(port_index: int):
-	var connection = graph.connections.filter(func(conn): return conn.from_node == current and conn.from_port == port_index).front()
-	if not connection:
+	var matching_connection = graph.connections.filter(func(conn): return conn.from_node == current and conn.from_port == port_index)
+	if matching_connection.is_empty():
 		print("No connection found from node ", current, " on port ", port_index, ". Ending dialogue...")
 		end_dialogue()
 		return
-
-	current = connection.to_node
-	if current == &"END":
-		end_dialogue()
-		return
-
+		
+	current = matching_connection.front().to_node
+	print(current)
 	var current_resource = graph.nodes.get(current)
-	if current_resource is DialogueEventNode:
+	if current_resource is DialogueEventNodeResource:
 		print("TODO implement event node firing")
 		transition(0)
 	else:

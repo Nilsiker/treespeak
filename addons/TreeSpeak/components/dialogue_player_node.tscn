@@ -50,5 +50,5 @@ cancel_button_text = "No"
 
 [connection signal="removed_clicked" from="DialogueOption" to="." method="remove_slot"]
 [connection signal="text_updated" from="DialogueOption" to="." method="_on_option_text_updated"]
-[connection signal="pressed" from="ButtonAddOption" to="." method="add_option"]
+[connection signal="pressed" from="ButtonAddOption" to="." method="_on_add_option_pressed"]
 [connection signal="confirmed" from="ConfirmationDialog" to="." method="delete"]

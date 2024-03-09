@@ -1,42 +1,35 @@
 [gd_resource type="Resource" script_class="DialogueGraphResource" load_steps=8 format=3 uid="uid://b2gh48hfa0hdt"]
 
 [ext_resource type="Script" path="res://addons/TreeSpeak/scripts/data/DialogueNpcNodeResource.gd" id="1_qdtrd"]
+[ext_resource type="Script" path="res://addons/TreeSpeak/scripts/data/DialogueEventNodeResource.gd" id="2_bgnbm"]
 [ext_resource type="Script" path="res://addons/TreeSpeak/scripts/data/DialoguePlayerNodeResource.gd" id="2_su2wy"]
 [ext_resource type="Script" path="res://addons/TreeSpeak/scripts/data/DialogueGraphResource.gd" id="3_dsery"]
 
-[sub_resource type="Resource" id="Resource_yumak"]
+[sub_resource type="Resource" id="Resource_pih0t"]
 script = ExtResource("1_qdtrd")
 line = "Hello!"
 
-[sub_resource type="Resource" id="Resource_ld5ap"]
-script = ExtResource("1_qdtrd")
-line = "How rude!"
+[sub_resource type="Resource" id="Resource_qu6cj"]
+script = ExtResource("2_bgnbm")
+event_name = &"EVENT1"
 
-[sub_resource type="Resource" id="Resource_gr0dx"]
-script = ExtResource("1_qdtrd")
-line = "I'm Bimpis. But I need to go NOW AND REAL FAST!!!"
-
-[sub_resource type="Resource" id="Resource_dog11"]
+[sub_resource type="Resource" id="Resource_xqsks"]
 script = ExtResource("2_su2wy")
-options = Array[String](["Hi there. Who are you?", "Don't talk to me."])
+options = Array[String](["123"])
 
 [resource]
 script = ExtResource("3_dsery")
 dialogue_id = ""
 npc_name = ""
 nodes = {
-"DialogueNpcNode": SubResource("Resource_yumak"),
-"DialogueNpcNode2": SubResource("Resource_ld5ap"),
-"DialogueNpcNode3": SubResource("Resource_gr0dx"),
-"DialoguePlayerNode": SubResource("Resource_dog11")
+"DialogueEventNode": SubResource("Resource_qu6cj"),
+"DialogueNpcNode": SubResource("Resource_pih0t"),
+"DialoguePlayerNode": SubResource("Resource_xqsks")
 }
 positions = {
-"DialogueNpcNode": Vector2(360, 160),
-"DialogueNpcNode2": Vector2(1040, 320),
-"DialogueNpcNode3": Vector2(1020, 180),
-"DialogueNpcNode5": Vector2(780, 520),
-"DialoguePlayerNode": Vector2(680, 160),
-"DialoguePlayerNode2": Vector2(660, 280)
+"DialogueEventNode": Vector2(1076, 411),
+"DialogueNpcNode": Vector2(599, 295),
+"DialoguePlayerNode": Vector2(1441, 338)
 }
 connections = Array[Dictionary]([{
 "from_node": &"START",
@@ -46,26 +39,11 @@ connections = Array[Dictionary]([{
 }, {
 "from_node": &"DialogueNpcNode",
 "from_port": 0,
+"to_node": &"DialogueEventNode",
+"to_port": 0
+}, {
+"from_node": &"DialogueEventNode",
+"from_port": 0,
 "to_node": &"DialoguePlayerNode",
-"to_port": 0
-}, {
-"from_node": &"DialogueNpcNode2",
-"from_port": 0,
-"to_node": &"END",
-"to_port": 0
-}, {
-"from_node": &"DialoguePlayerNode",
-"from_port": 0,
-"to_node": &"DialogueNpcNode3",
-"to_port": 0
-}, {
-"from_node": &"DialogueNpcNode3",
-"from_port": 0,
-"to_node": &"END",
-"to_port": 0
-}, {
-"from_node": &"DialoguePlayerNode",
-"from_port": 1,
-"to_node": &"DialogueNpcNode2",
 "to_port": 0
 }])

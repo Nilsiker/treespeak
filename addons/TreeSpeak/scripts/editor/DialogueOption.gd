@@ -1,5 +1,7 @@
 @tool
+class_name DialogueOption
 extends PanelContainer
+
 
 signal removed_clicked(index: int)
 signal text_updated(index: int, text: String)
