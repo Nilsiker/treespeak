@@ -26,7 +26,6 @@ func transition(port_index: int):
 		return
 		
 	current = matching_connection.front().to_node
-	print(current)
 	var current_resource = graph.nodes.get(current)
 	if current_resource is DialogueEventNodeResource:
 		print("TODO implement event node firing")

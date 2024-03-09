@@ -77,7 +77,6 @@ func _on_node_deleted(node: StringName):
 	print("node removed: ", node)
 	resource.remove_node(node)
 	for connection in get_connection_list():
-		print(connection)
 		if connection.from_node == node or connection.to_node == node:
 			disconnect_nodes(connection.from_node, connection.from_port, connection.to_node, connection.to_port)
 
@@ -85,7 +84,7 @@ func _on_node_position_updated(name: StringName, position: Vector2):
 	resource.update_position(name, position)
 
 func _on_slot_removed(node: StringName, port_index: int):
-	print("slot ", port_index, " removed on ", node)
+	print("removed slot ", port_index, " on ", node)
 	for conn in get_connection_list():
 		if conn.from == node and conn.from_port == port_index:
 			disconnect_nodes(conn.from, conn.from_port, conn.to, conn.to_port)
@@ -136,6 +135,5 @@ func _can_drop_data(at_position, data):
 	return false
 
 func _drop_data(at_position, data):
-	print("dropped ", data)
 	var res = load(data.files[0])
 	load_res(res)
