@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bxjlo4pu1oafu"]
+[gd_scene load_steps=9 format=3 uid="uid://bxjlo4pu1oafu"]
 
 [ext_resource type="Script" path="res://addons/TreeSpeak/scripts/editor/TreeSpeak.gd" id="1_jiqaj"]
 [ext_resource type="Script" path="res://addons/TreeSpeak/scripts/ui/SetText.gd" id="2_eqxgb"]
 [ext_resource type="Script" path="res://addons/TreeSpeak/scripts/editor/TreeSpeakGraph.gd" id="2_jarrc"]
+[ext_resource type="Script" path="res://addons/TreeSpeak/scripts/editor/NodeCreator.gd" id="3_d2umm"]
 [ext_resource type="Script" path="res://addons/TreeSpeak/scripts/editor/TreeSpeakGraphContextMenu.gd" id="3_keeji"]
 [ext_resource type="Script" path="res://addons/TreeSpeak/scripts/editor/DialogueStartNode.gd" id="6_fhmo6"]
 [ext_resource type="Script" path="res://addons/TreeSpeak/scripts/editor/TreeSpeakFileDialog.gd" id="8_p83s7"]
@@ -51,6 +52,21 @@ minimap_enabled = false
 script = ExtResource("2_jarrc")
 popup = NodePath("TreeSpeakGraphContextMenu")
 
+[node name="NodeCreator" type="Node" parent="TreeSpeakGraph"]
+script = ExtResource("3_d2umm")
+
+[node name="TreeSpeakGraphContextMenu" type="PopupMenu" parent="TreeSpeakGraph"]
+size = Vector2i(157, 89)
+unfocusable = true
+item_count = 3
+item_0/text = "Add Player Node"
+item_0/id = 0
+item_1/text = "Add NPC Node"
+item_1/id = 1
+item_2/text = "Add Event Node"
+item_2/id = 2
+script = ExtResource("3_keeji")
+
 [node name="DialogueTitle" type="Label" parent="TreeSpeakGraph"]
 layout_mode = 1
 anchors_preset = 5
@@ -64,18 +80,6 @@ grow_horizontal = 2
 theme_override_font_sizes/font_size = 24
 text = "Drag and drop dialogue resource"
 script = ExtResource("2_eqxgb")
-
-[node name="TreeSpeakGraphContextMenu" type="PopupMenu" parent="TreeSpeakGraph"]
-size = Vector2i(157, 89)
-unfocusable = true
-item_count = 3
-item_0/text = "Add Player Node"
-item_0/id = 0
-item_1/text = "Add NPC Node"
-item_1/id = 1
-item_2/text = "Add Event Node"
-item_2/id = 2
-script = ExtResource("3_keeji")
 
 [node name="START" type="GraphNode" parent="TreeSpeakGraph"]
 visible = false

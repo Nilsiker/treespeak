@@ -4,7 +4,7 @@ signal started(resource: DialogueGraphResource, variables: Dictionary)
 signal updated(resource: DialogueNodeResource)
 signal ended()
 
-var graph: DialogueGraphResource # TODO remove export
+var graph: DialogueGraphResource
 var current: StringName
 
 func start_dialogue(graph: DialogueGraphResource, variables: Dictionary):

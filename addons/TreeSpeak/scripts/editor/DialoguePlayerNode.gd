@@ -24,10 +24,6 @@ func _set_options(options: Array[String]):
 		else:
 			_add_option(option)
 
-func _on_add_option_pressed():
-	_add_option("")
-
-
 func _add_option(text: String):
 	var node = dialogue_option.instantiate()
 	var index = get_children().size() - 2
@@ -44,6 +40,9 @@ func _add_option(text: String):
 		node.set_text(text)
 	else: # if not provided a text param, this is a new option that should be added to the resource
 		resource.options.insert(_option_index, "")
+
+func _on_add_option_pressed():
+	_add_option("")
 
 func _on_removed_clicked(index: int):
 	slot_removed.emit(name, index)

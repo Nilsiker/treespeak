@@ -1,10 +1,69 @@
-[gd_resource type="Resource" script_class="DialogueGraphResource" load_steps=2 format=3 uid="uid://co7dkt16hnee7"]
+[gd_resource type="Resource" script_class="DialogueGraphResource" load_steps=10 format=3 uid="uid://co7dkt16hnee7"]
 
+[ext_resource type="Script" path="res://addons/TreeSpeak/scripts/data/DialoguePlayerNodeResource.gd" id="1_0145j"]
 [ext_resource type="Script" path="res://addons/TreeSpeak/scripts/data/DialogueGraphResource.gd" id="1_aeger"]
+[ext_resource type="Script" path="res://addons/TreeSpeak/scripts/data/DialogueNpcNodeResource.gd" id="2_8vb2y"]
+[ext_resource type="Script" path="res://addons/TreeSpeak/scripts/data/DialogueEventNodeResource.gd" id="3_jf4ke"]
+
+[sub_resource type="Resource" id="Resource_jrbm6"]
+script = ExtResource("1_0145j")
+options = Array[String](["testt"])
+
+[sub_resource type="Resource" id="Resource_tjlq1"]
+script = ExtResource("2_8vb2y")
+line = "Testttt"
+
+[sub_resource type="Resource" id="Resource_ptv2p"]
+script = ExtResource("3_jf4ke")
+event_name = &""
+
+[sub_resource type="Resource" id="Resource_o0e3c"]
+script = ExtResource("3_jf4ke")
+event_name = &""
+
+[sub_resource type="Resource" id="Resource_mj8rx"]
+script = ExtResource("2_8vb2y")
+line = ""
 
 [resource]
 script = ExtResource("1_aeger")
 dialogue_id = ""
 npc_name = ""
-nodes = {}
-connections = Array[Dictionary]([])
+nodes = {
+"@GraphNode@30359": {
+"data": SubResource("Resource_o0e3c"),
+"position": Vector2(1039, 402),
+"size": Vector2(0, 0)
+},
+"@GraphNode@30375": {
+"data": SubResource("Resource_mj8rx"),
+"position": Vector2(1211, 291),
+"size": Vector2(0, 0)
+},
+"DialogueEventNode": {
+"data": SubResource("Resource_ptv2p"),
+"position": Vector2(765, 433),
+"size": Vector2(0, 0)
+},
+"DialogueNpcNode": {
+"data": SubResource("Resource_tjlq1"),
+"position": Vector2(920, 200),
+"size": Vector2(115, 70)
+},
+"DialoguePlayerNode": {
+"data": SubResource("Resource_jrbm6"),
+"position": Vector2(700, 200),
+"size": Vector2(116, 99)
+}
+}
+connections = Array[Dictionary]([{
+"from_node": &"START",
+"from_port": 0,
+"to_node": &"DialoguePlayerNode",
+"to_port": 0
+}, {
+"from_node": &"DialoguePlayerNode",
+"from_port": 0,
+"to_node": &"DialogueNpcNode",
+"to_port": 0
+}])
