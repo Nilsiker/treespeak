@@ -1,0 +1,59 @@
+[gd_resource type="Resource" script_class="DialogueGraphResource" load_steps=8 format=3 uid="uid://c8p1tp3crd1g"]
+
+[ext_resource type="Script" path="res://addons/TreeSpeak/scripts/data/DialogueGraphResource.gd" id="1_2rulm"]
+[ext_resource type="Script" path="res://addons/TreeSpeak/scripts/data/DialogueNpcNodeResource.gd" id="1_gm1p6"]
+[ext_resource type="Script" path="res://addons/TreeSpeak/scripts/data/DialoguePlayerNodeResource.gd" id="2_a52wt"]
+
+[sub_resource type="Resource" id="Resource_8emgd"]
+script = ExtResource("1_gm1p6")
+line = "Hey"
+
+[sub_resource type="Resource" id="Resource_e55w8"]
+script = ExtResource("1_gm1p6")
+line = ""
+
+[sub_resource type="Resource" id="Resource_fq1ki"]
+script = ExtResource("2_a52wt")
+options = Array[String](["Hello", "Goodbye"])
+
+[sub_resource type="Resource" id="Resource_7d5yo"]
+script = ExtResource("2_a52wt")
+options = Array[String]([""])
+
+[resource]
+script = ExtResource("1_2rulm")
+dialogue_id = ""
+npc_name = "Test"
+nodes = {
+"DialogueNpcNode": {
+"data": SubResource("Resource_8emgd"),
+"position": Vector2(700, 200),
+"size": Vector2(187, 55)
+},
+"DialogueNpcNode2": {
+"data": SubResource("Resource_e55w8"),
+"position": Vector2(460, 440),
+"size": Vector2(0, 0)
+},
+"DialoguePlayerNode": {
+"data": SubResource("Resource_fq1ki"),
+"position": Vector2(1000, 200),
+"size": Vector2(244, 146)
+},
+"DialoguePlayerNode2": {
+"data": SubResource("Resource_7d5yo"),
+"position": Vector2(840, 480),
+"size": Vector2(0, 0)
+}
+}
+connections = Array[Dictionary]([{
+"from_node": &"START",
+"from_port": 0,
+"to_node": &"DialogueNpcNode",
+"to_port": 0
+}, {
+"from_node": &"DialogueNpcNode",
+"from_port": 0,
+"to_node": &"DialoguePlayerNode",
+"to_port": 0
+}])

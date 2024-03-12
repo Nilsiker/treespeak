@@ -13,6 +13,9 @@ signal graph_loaded(graph)
 @export var popup: TreeSpeakGraphContextMenu
 @export var resource: DialogueGraphResource
 
+@onready var player_node = preload ("res://addons/TreeSpeak/components/dialogue_player_node.tscn")
+@onready var npc_node = preload ("res://addons/TreeSpeak/components/dialogue_npc_node.tscn")
+@onready var event_node = preload ("res://addons/TreeSpeak/components/dialogue_event_node.tscn")
 @onready var start: DialogueStart = $START
 
 func _ready():	
@@ -30,9 +33,11 @@ func connect_nodes(from_node: StringName, from_port: int, to_node: StringName, t
 	connect_node(from_node, from_port, to_node, to_port)
 	update_connections()
 
+
 func disconnect_nodes(from_node: StringName, from_port: int, to_node: StringName, to_port: int):
 	disconnect_node(from_node, from_port, to_node, to_port)
 	update_connections()
+
 
 func _gui_input(event):
 	if Input.is_key_label_pressed(KEY_DELETE):
@@ -104,41 +109,40 @@ func get_graph_pos(position: Vector2) -> Vector2:
 func update_connections():
 	resource.connections = get_connection_list()
 
-# func _add_node(node: Dictionary):
-# 	var data = node.data
+func _add_node(node: Dictionary, register_in_resource = false):
+	var data = node.data
+	var created_node: DialogueNode
 	
-# 	if data is DialoguePlayerNodeResource:
-# 		created_node = popup.request_create_node(position, TreeSpeakGraphContextMenu.NodeType.Player, node)
-# 		created_node.slot_removed.connect(_on_slot_removed)
-# 	elif data is DialogueNpcNodeResource:
-# 		created_node = popup.request_create_node(position, TreeSpeakGraphContextMenu.NodeType.NPC, node)
-# 	elif data is DialogueEventNodeResource:
-# 		created_node = popup.request_create_node(position, TreeSpeakGraphContextMenu.NodeType.Event, node)
+	if data is DialoguePlayerNodeResource:
+		created_node = player_node.instantiate()
+		created_node.slot_removed.connect(_on_slot_removed)
+	elif data is DialogueNpcNodeResource:
+		created_node = npc_node.instantiate()
+	elif data is DialogueEventNodeResource:
+		created_node = event_node.instantiate()
+	
+	add_child(created_node)
+
+	created_node.set_resource(data)
+	created_node.position_offset = node.position
+	created_node.size = node.size
+	created_node.deleted.connect(_on_node_deleted)
+	created_node.position_updated.connect(_on_node_position_updated)
+	created_node.size_updated.connect(_on_node_size_updated)
+
+	if register_in_resource:
+		resource.add_node(created_node)
 
 func clear_nodes():
+	clear_connections()
 	for node in get_children().filter(func(c): return c is DialogueNode):
-		node.queue_free()	# or delete?
+		node.queue_free()
+
 
 func load_res(res: DialogueGraphResource):
-	clear_nodes() # FIXME this doesn't clear the nodes in time for the loaded nodes to enter, which causes issues with naming
-	print("loaded ", res)
 	resource = res
-	for node in res.nodes.keys():
-		var data = res.nodes[node].data
-		var position = res.nodes[node].position
-		var size = res.nodes[node].size
-		var created_node
-		if data is DialoguePlayerNodeResource:
-			created_node = popup.request_create_node(position, TreeSpeakGraphContextMenu.NodeType.Player, node)
-			created_node.slot_removed.connect(_on_slot_removed)
-		elif data is DialogueNpcNodeResource:
-			created_node = popup.request_create_node(position, TreeSpeakGraphContextMenu.NodeType.NPC, node)
-		elif data is DialogueEventNodeResource:
-			created_node = popup.request_create_node(position, TreeSpeakGraphContextMenu.NodeType.Event, node)
-		created_node.set_resource(data)
-		created_node.deleted.connect(_on_node_deleted)
-		created_node.position_updated.connect(_on_node_position_updated)
-		created_node.size_updated.connect(_on_node_size_updated)
+	for node in res.nodes.values():
+		_add_node(node)
 
 	for conn in res.connections:
 		connect_node(conn.from_node, conn.from_port, conn.to_node, conn.to_port)
@@ -157,4 +161,8 @@ func _can_drop_data(at_position, data):
 
 func _drop_data(at_position, data):
 	var res = load(data.files[0])
-	load_res(res)
+	if res == resource: 
+		push_warning(name, ": cannot load same file twice")
+		return
+	clear_nodes() # FIXME this doesn't clear the nodes in time for the loaded nodes to enter, which causes issues with naming
+	load_res.call_deferred(res)

@@ -1,6 +1,5 @@
 extends Node
 
-
 signal started(resource: DialogueGraphResource, variables: Dictionary)
 signal updated(resource: DialogueNodeResource)
 signal ended()

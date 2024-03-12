@@ -78,6 +78,7 @@ item_2/id = 2
 script = ExtResource("3_keeji")
 
 [node name="START" type="GraphNode" parent="TreeSpeakGraph"]
+visible = false
 layout_mode = 0
 offset_left = 401.0
 offset_top = 202.0

@@ -13,7 +13,7 @@ func _ready():
 	player_options.item_selected.connect(DialogueManager.transition)
 
 	# remove debug vvvv
-	var dialogue_graph: DialogueGraphResource = load("res://dialogues/variable_test.tres")
+	var dialogue_graph: DialogueGraphResource = load("res://dialogues/test2.tres")
 	DialogueManager.start_dialogue(dialogue_graph, {
 		"npc_name": dialogue_graph.npc_name,
 		"coins": 101,
