@@ -1,10 +1,62 @@
-[gd_resource type="Resource" script_class="DialogueGraphResource" load_steps=2 format=3 uid="uid://ccwb4jf23wrxk"]
+[gd_resource type="Resource" script_class="DialogueGraphResource" load_steps=8 format=3 uid="uid://ccwb4jf23wrxk"]
 
 [ext_resource type="Script" path="res://addons/TreeSpeak/scripts/data/DialogueGraphResource.gd" id="1_ayvae"]
+[ext_resource type="Script" path="res://addons/TreeSpeak/scripts/data/DialogueNpcNodeResource.gd" id="1_raq1g"]
+
+[sub_resource type="Resource" id="Resource_jc0s5"]
+script = ExtResource("1_raq1g")
+line = ""
+
+[sub_resource type="Resource" id="Resource_d0njh"]
+script = ExtResource("1_raq1g")
+line = ""
+
+[sub_resource type="Resource" id="Resource_ajacn"]
+script = ExtResource("1_raq1g")
+line = ""
+
+[sub_resource type="Resource" id="Resource_dppts"]
+script = ExtResource("1_raq1g")
+line = ""
+
+[sub_resource type="Resource" id="Resource_tx54g"]
+script = ExtResource("1_raq1g")
+line = ""
 
 [resource]
 script = ExtResource("1_ayvae")
 dialogue_id = ""
 npc_name = "Testing"
-nodes = {}
-connections = Array[Dictionary]([])
+nodes = {
+"@GraphNode@22117": {
+"data": SubResource("Resource_d0njh"),
+"position": Vector2(755, 393),
+"size": Vector2(0, 0)
+},
+"@GraphNode@22137": {
+"data": SubResource("Resource_ajacn"),
+"position": Vector2(625, 441),
+"size": Vector2(0, 0)
+},
+"@GraphNode@22407": {
+"data": SubResource("Resource_dppts"),
+"position": Vector2(895, 116),
+"size": Vector2(0, 0)
+},
+"@GraphNode@22802": {
+"data": SubResource("Resource_tx54g"),
+"position": Vector2(734, 146),
+"size": Vector2(0, 0)
+},
+"DialogueNpcNode": {
+"data": SubResource("Resource_jc0s5"),
+"position": Vector2(788, 245),
+"size": Vector2(0, 0)
+}
+}
+connections = Array[Dictionary]([{
+"from_node": &"START",
+"from_port": 0,
+"to_node": &"DialogueNpcNode",
+"to_port": 0
+}])

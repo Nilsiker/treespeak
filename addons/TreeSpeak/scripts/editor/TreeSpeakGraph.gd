@@ -104,6 +104,7 @@ func _on_connection_to_empty(from, from_port, release_position):
 	popup.open(get_global_mouse_position() + Vector2.DOWN * 30)
 
 func _on_popup_close_requested():
+	print("close request")	 # TODO this is also run when pressing an option - I need to handle the autolink cancellation differently! Anti-logic?
 	_autolink_data = null
 
 func _on_popup_id_pressed(option: PopupOption):
