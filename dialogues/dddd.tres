@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="DialogueGraphResource" load_steps=2 format=3 uid="uid://ccwb4jf23wrxk"]
+
+[ext_resource type="Script" path="res://addons/TreeSpeak/scripts/data/DialogueGraphResource.gd" id="1_ayvae"]
+
+[resource]
+script = ExtResource("1_ayvae")
+dialogue_id = ""
+npc_name = "Testing"
+nodes = {}
+connections = Array[Dictionary]([])

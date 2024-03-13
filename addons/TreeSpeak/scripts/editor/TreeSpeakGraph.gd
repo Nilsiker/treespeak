@@ -18,16 +18,19 @@ signal graph_loaded(graph)
 @onready var event_node = preload ("res://addons/TreeSpeak/components/dialogue_event_node.tscn")
 @onready var start: DialogueStart = $START
 
+var _autolink_data = {}
+
 func _ready():
 	connection_to_empty.connect(_on_connection_to_empty)
 	connection_request.connect(_on_connection_request)
 	disconnection_request.connect(_on_disconnection_request)
-
+	
 	popup.id_pressed.connect(_on_popup_id_pressed)
-	popup.autolink_requested.connect(_on_autolink_request)
+	popup.close_requested.connect(_on_popup_close_requested)
 
 	start.get_node("NpcName").text_changed.connect(func(new_name): resource.npc_name=new_name)
 	start.visible = resource != null
+
 
 #region PRIVATE OVERRIDES
 
@@ -51,7 +54,7 @@ func _can_drop_data(at_position, data):
 	return false
 
 func _drop_data(at_position, data):
-	var res = load(data.files[0])
+	var res = ResourceLoader.load(data.files[0])
 	if res == resource:
 		push_warning(name, ": cannot load same file twice")
 		return
@@ -64,6 +67,7 @@ func _drop_data(at_position, data):
 
 func load_res(res: DialogueGraphResource):
 	resource = res
+	print(res.resource_path)
 	for node in res.nodes.values():
 		_create_node_from_dictionary(node)
 
@@ -73,6 +77,8 @@ func load_res(res: DialogueGraphResource):
 	graph_loaded.emit(res)
 	start.visible = resource != null
 	start.get_node("NpcName").text = resource.npc_name
+	EditorInterface.inspect_object(resource)
+
 
 #endregion
 
@@ -94,7 +100,11 @@ func _delete_nodes_confirmed():
 			node.delete()
 
 func _on_connection_to_empty(from, from_port, release_position):
-	popup.open(get_global_mouse_position() + Vector2.DOWN * 30, from, from_port)
+	_autolink_data = {"from": from, "from_port": from_port}
+	popup.open(get_global_mouse_position() + Vector2.DOWN * 30)
+
+func _on_popup_close_requested():
+	_autolink_data = null
 
 func _on_popup_id_pressed(option: PopupOption):
 	var graph_mouse_pos = _get_graph_pos(get_local_mouse_position())
@@ -105,10 +115,7 @@ func _on_popup_id_pressed(option: PopupOption):
 			_create_node_from_type(DialoguePlayerNodeResource, graph_mouse_pos)
 		PopupOption.EventNode:
 			_create_node_from_type(DialogueEventNodeResource, graph_mouse_pos)
-
-func _on_autolink_request(from: StringName, port: int, to: StringName):
-	_on_connection_request(from, port, to, 0)
-
+	
 func _on_node_deleted(node: StringName):
 	print("node removed: ", node)
 	resource.remove_node(node)
@@ -151,6 +158,9 @@ func _create_node_from_type(node_type, position: Vector2):
 	}
 	var created_node = _create_node_from_dictionary(node)
 	resource.add_node(created_node)
+	if _autolink_data:
+		_on_connection_request(_autolink_data.from, _autolink_data.from_port, created_node.name, 0)
+		_autolink_data = null
 
 func _create_node_from_dictionary(node: Dictionary) -> DialogueNode:
 	var data = node.data
@@ -168,7 +178,7 @@ func _create_node_from_dictionary(node: Dictionary) -> DialogueNode:
 
 	created_node.set_resource(data)
 	created_node.position_offset = node.position
-	if created_node.size:
+	if node.size:
 		created_node.size = node.size
 	created_node.deleted.connect(_on_node_deleted)
 	created_node.position_updated.connect(_on_node_position_updated)

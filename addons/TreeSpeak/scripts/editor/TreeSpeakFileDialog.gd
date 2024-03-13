@@ -16,3 +16,5 @@ func _on_confirmed():
 		FILE_MODE_SAVE_FILE:
 			var resource = DialogueGraphResource.new()
 			var result = ResourceSaver.save(resource, current_path)
+			var file = ResourceLoader.load(current_path)
+			%TreeSpeakGraph.load_res(file)
